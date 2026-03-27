@@ -22,3 +22,51 @@ artifacts:
   files:
     - '**/*'
   base-directory: 'build'
+Resources:
+  MyCodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionType:
+                Category: Source
+                Provider: GitHub
+                Version: '1'
+              Configuration:
+                Owner: "MyGitHubUser"
+                Repo: "MyRepo"
+                Branch: "main"
+                # Use a connection for secure access
+                ConnectionArn: !Ref GitHubConnectionArn
+              OutputArtifacts:
+                - Name: SourceArtifact
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionType:
+                Category: Build
+                Provider: CodeBuild
+                InputArtifacts:
+                  - Name: SourceArtifact
+                OutputArtifacts:
+                  - Name: BuildArtifact
+                Configuration:
+                  ProjectName: !Ref MyCodeBuildProject
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionType:
+                Category: Deploy
+                Provider: CodeDeploy
+                InputArtifacts:
+                  - Name: BuildArtifact
+                Configuration:
+                  ApplicationName: !Ref MyApplication
+                  DeploymentGroupName: !Ref MyDeploymentGroup
+~
