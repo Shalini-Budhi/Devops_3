@@ -69,4 +69,29 @@ Resources:
                 Configuration:
                   ApplicationName: !Ref MyApplication
                   DeploymentGroupName: !Ref MyDeploymentGroup
+version: 0.2
+phases:
+  install:
+    # Commands to install dependencies
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  build:
+    # Commands to build the application
+    commands:
+      - echo Building the application...
+      - npm run build
+  post_build:
+    # Commands to run tests or finalize artifacts
+    commands:
+      - echo Running tests...
+      - npm test
+artifacts:
+  # Files to be packaged as artifacts for the next stage
+  files:
+    - '**/*'
+  base-directory: 'build'
+eriugriegod[gyhsy8hduuuuuuuuuuuuuuuuuuuuuu-0dfro-=pfykhpfto=ykxfc[phkfcgkl[
 ~
