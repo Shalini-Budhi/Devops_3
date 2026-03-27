@@ -1,27 +1,24 @@
-ADdQWDWDwdWQDwwDSEFEWREASGETetetETSEGRETRERHW5TERGA
-import { useState } from 'react';
-
-function MyButton({ count, onClick }) {
-  return (
-    <button onClick={onClick}>
-      Clicked {count} times
-    </button>
-  );
-}
-
-export default function MyApp() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return (
-    <div>
-      <h1>Counters that update together</h1>
-      <MyButton count={count} onClick={handleClick} />
-      <MyButton count={count} onClick={handleClick} />
-    </div>
-  );
-
-hii hello world welcome to webserver-1}
+version: 0.2
+phases:
+  install:
+    # Commands to install dependencies
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  build:
+    # Commands to build the application
+    commands:
+      - echo Building the application...
+      - npm run build
+  post_build:
+    # Commands to run tests or finalize artifacts
+    commands:
+      - echo Running tests...
+      - npm test
+artifacts:
+  # Files to be packaged as artifacts for the next stage
+  files:
+    - '**/*'
+  base-directory: 'build'
