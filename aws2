@@ -1,1 +1,5 @@
-shalini
+echo "Building app"
+mvn clean package
+
+echo "Deploying app"
+cp target/app.war /var/www/html/
